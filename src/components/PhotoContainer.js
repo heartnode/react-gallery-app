@@ -6,12 +6,15 @@ class PhotoContainer extends Component{
     render(){
         return (
             <div className="photo-container">
-            <h2>Results</h2>
+            <h2>Results for {this.props.keyword}</h2>
             <ul>
-              {this.props.photos.map((photo,index)=>
-                <Photo {...photo} key={index}/>
-              )}
-              <NotFound />
+              {
+                (this.props.photos.length) ?
+                  this.props.photos.map((photo)=>
+                    <Photo {...photo} key={photo.id}/>)
+                  :
+                  <NotFound />
+              }
             </ul>
           </div>
         )

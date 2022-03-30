@@ -3,31 +3,75 @@ import apiKey from './config';
 import Search from './components/Search';
 import Nav from './components/Nav';
 import PhotoContainer from './components/PhotoContainer';
-import {BrowserRouter} from 'react-router-dom';
+import {Route,Switch,Redirect} from 'react-router-dom';
+
 class App extends Component {
   state = {
-    photos:[]
+    isLoading: true,
+    photos:[],
+    cats:[],
+    dogs:[],
+    computers:[]
   };
-  handleSearch = (query = "sunset")=>{
+
+  componentDidMount(){
+    const builtinQuery =["cats","dogs","computers"];
+    builtinQuery.map((query)=> this.handleSearch(query));
+  }
+
+  handleSearch = (query)=>{
     const url = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&text=${query}&per_page=24&format=json&nojsoncallback=1`; 
+    this.setState((prevState)=>{
+      const newState = {...prevState};
+      newState.isLoading = true;
+      return newState;
+    });
     fetch(url)
     .then(response=>response.json())
-    .then(responseJson=>
-      this.setState({photos:responseJson.photos.photo})  
-    )
+    .then(responseJson=>{
+      this.setState((prevState) =>{
+        const newState = {...prevState};
+        if (query === "cats"){
+          newState.cats = responseJson.photos.photo;
+        } else if (query === "dogs"){
+          newState.dogs = responseJson.photos.photo;
+        } else if (query === "computers"){
+          newState.computers = responseJson.photos.photo;
+        }
+        else { 
+          newState.photos = responseJson.photos.photo;
+        }
+        newState.isLoading = false;
+        return newState;  
+      })
+    })
     .catch((err)=>console.log("Error while fetching and parsing response", err));
   }
-  componentDidMount(){
-    this.handleSearch();
-  }
+
   
   render(){
     return (
-      <BrowserRouter>
-          <Search />
-          <Nav />
-          <PhotoContainer photos={this.state.photos}/>
-      </BrowserRouter>
+      <div>
+        <Search onSearch={this.handleSearch}/>
+        <Nav />
+        {
+          (this.state.isLoading) ? <h2>Loading ...</h2> :
+          <Switch>
+            <Route exact path="/" render={()=><Redirect to="/cats" />} />
+            <Route path="/cats" render={()=>{
+              return (<PhotoContainer photos={this.state.cats} keyword="Cats" />);}} />
+            <Route path="/dogs" render={()=>{
+              return (<PhotoContainer photos={this.state.dogs} keyword="Dogs" />);}} />
+            <Route path="/computers" render={()=>{
+              return (<PhotoContainer photos={this.state.computers} keyword="Computers" />);}} />
+            <Route path="/search/:query" render={({match})=>{
+              console.log(match.params.query);
+              return (<PhotoContainer photos={this.state.photos} keyword={match.params.query}/>);}} />
+            <Route render={()=><PhotoContainer photos={[]} />} />   
+          </Switch>
+        }
+        
+      </div>
     );
   }
 }
