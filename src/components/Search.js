@@ -6,6 +6,7 @@ class Search extends Component{
     handleSubmit = e => {
         e.preventDefault();
         const query = this.search.value;
+        sessionStorage.setItem('query',query);
         this.props.onSearch(query);
         const path = `/search/${query}`;
         this.props.history.push(path);
