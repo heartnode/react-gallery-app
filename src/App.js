@@ -3,6 +3,7 @@ import apiKey from './config';
 import Search from './components/Search';
 import Nav from './components/Nav';
 import PhotoContainer from './components/PhotoContainer';
+import Error404 from './components/Error404';
 import {Route,Switch,Redirect} from 'react-router-dom';
 
 class App extends Component {
@@ -67,7 +68,7 @@ class App extends Component {
               return (<PhotoContainer photos={this.state.computers} query="Computers" />);}} />
             <Route path="/search/:query" render={({match})=>{
               return (<PhotoContainer photos={this.state.photos} query={match.params.query}/>);}} />
-            <Route render={()=><PhotoContainer photos={[]} />} />   
+            <Route component={Error404} />   
           </Switch>
         }
         
