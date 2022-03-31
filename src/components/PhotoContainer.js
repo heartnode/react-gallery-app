@@ -6,6 +6,12 @@ import {withRouter} from 'react-router-dom'
  * PhotoContainer renders a list of Photo tags an empty list of photos will show NotFound instead
  */
 class PhotoContainer extends Component{
+  componentDidMount(){
+    if (this.props.search && sessionStorage.getItem('query') !== this.props.query){
+      sessionStorage.setItem('query',this.props.query);
+      this.props.search(this.props.query);
+    }
+  }
     render(){
         return (
             <div className="photo-container">

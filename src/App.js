@@ -67,7 +67,7 @@ class App extends Component {
             <Route path="/computers" render={()=>{
               return (<PhotoContainer photos={this.state.computers} query="Computers" />);}} />
             <Route path="/search/:query" render={({match})=>{
-              return (<PhotoContainer photos={this.state.photos} query={match.params.query}/>);}} />
+              return (<PhotoContainer photos={this.state.photos} query={match.params.query} search={this.handleSearch}/>);}} />
             <Route component={Error404} />   
           </Switch>
         }
