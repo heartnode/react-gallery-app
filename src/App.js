@@ -19,6 +19,8 @@ class App extends Component {
     // This suppose the navigation bar with pre-fetch results
     const builtinQuery =["cats","dogs","computers"];
     builtinQuery.map((query)=> this.handleSearch(query));
+    // This is use to support fresh query look up when user enters the page
+    sessionStorage.removeItem('query');
   }
 
   handleSearch = (query)=>{

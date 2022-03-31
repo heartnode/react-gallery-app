@@ -7,7 +7,8 @@ import {withRouter} from 'react-router-dom'
  */
 class PhotoContainer extends Component{
   componentDidMount(){
-    if (this.props.search && sessionStorage.getItem('query') !== this.props.query){
+    // If we encounter query searches make sure it matches with the session key
+    if (this.props.search &&  sessionStorage.getItem('query') !== this.props.query ){
       sessionStorage.setItem('query',this.props.query);
       this.props.search(this.props.query);
     }
