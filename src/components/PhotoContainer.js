@@ -6,6 +6,16 @@ import {withRouter} from 'react-router-dom'
  * PhotoContainer renders a list of Photo tags an empty list of photos will show NotFound instead
  */
 class PhotoContainer extends Component{
+
+  //When back and forward button are being pushed in the browser
+  componentDidUpdate(prevProps) {
+    //console.log(this.props.query);
+    //console.log(prevProps.query)
+    if (this.props.query !== prevProps.query && this.props.search){
+      this.props.search(this.props.query);
+    }
+  }
+
   componentDidMount(){
     // If we encounter query searches make sure it matches with the session key
     if (this.props.search &&  sessionStorage.getItem('query') !== this.props.query ){
