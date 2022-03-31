@@ -15,6 +15,7 @@ class App extends Component {
   };
 
   componentDidMount(){
+    // This suppose the navigation bar with pre-fetch results
     const builtinQuery =["cats","dogs","computers"];
     builtinQuery.map((query)=> this.handleSearch(query));
   }
@@ -59,14 +60,13 @@ class App extends Component {
           <Switch>
             <Route exact path="/" render={()=><Redirect to="/cats" />} />
             <Route path="/cats" render={()=>{
-              return (<PhotoContainer photos={this.state.cats} keyword="Cats" />);}} />
+              return (<PhotoContainer photos={this.state.cats} query="Cats" />);}} />
             <Route path="/dogs" render={()=>{
-              return (<PhotoContainer photos={this.state.dogs} keyword="Dogs" />);}} />
+              return (<PhotoContainer photos={this.state.dogs} query="Dogs" />);}} />
             <Route path="/computers" render={()=>{
-              return (<PhotoContainer photos={this.state.computers} keyword="Computers" />);}} />
+              return (<PhotoContainer photos={this.state.computers} query="Computers" />);}} />
             <Route path="/search/:query" render={({match})=>{
-              console.log(match.params.query);
-              return (<PhotoContainer photos={this.state.photos} keyword={match.params.query}/>);}} />
+              return (<PhotoContainer photos={this.state.photos} query={match.params.query} fetch={this.handleSearch}/>);}} />
             <Route render={()=><PhotoContainer photos={[]} />} />   
           </Switch>
         }

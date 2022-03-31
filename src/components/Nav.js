@@ -1,7 +1,9 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+/**
+ * The Main Nav for the Gallery 
+ */
 const Nav = (props)=>{
-  
     return (
         <nav className="main-nav">
         <ul>

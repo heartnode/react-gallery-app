@@ -1,4 +1,8 @@
 import React from 'react';
+
+/**
+ * When No Result found
+ */
 const NotFound = ()=>{
     return (
         <li className="not-found">
